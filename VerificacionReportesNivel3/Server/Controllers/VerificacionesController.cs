@@ -52,6 +52,23 @@ namespace VerificacionReportesNivel3.Server.Controllers
             }
             );
         }
+
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var verificaciones = _context.Verificaciones
+                .Select(v => new
+                {
+                    v.Id,
+                    v.CedulaCliente,
+                    v.ContieneNombre,
+                    v.Fecha
+                })
+                .OrderByDescending(v => v.Fecha)
+                .ToList();
+            
+            return Ok(verificaciones);
+        }
         public IActionResult Index()
         {
             return View();

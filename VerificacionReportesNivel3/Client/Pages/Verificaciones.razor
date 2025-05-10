@@ -1,0 +1,54 @@
+﻿@page "/verificaciones"
+@inject HttpClient Http
+
+<h3>Historial de Verificaciones</h3>
+
+@if (verificaciones == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else if (!verificaciones.Any())
+{
+    <p>No hay registros aún.</p>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Cédula</th>
+                <th>Contiene Nombre</th>
+                <th>Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in verificaciones)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.CedulaCliente</td>
+                    <td>@(item.ContieneNombre ? "Sí" : "No")</td>
+                    <td>@item.Fecha.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<VerificacionDto> verificaciones;
+
+    protected override async Task OnInitializedAsync()
+    {
+        verificaciones = await Http.GetFromJsonAsync<List<VerificacionDto>>("api/verificaciones");
+    }
+
+    public class VerificacionDto
+    {
+        public int Id { get; set; }
+        public string CedulaCliente { get; set; }
+        public bool ContieneNombre { get; set; }
+        public DateTime Fecha { get; set; }
+    }
+}

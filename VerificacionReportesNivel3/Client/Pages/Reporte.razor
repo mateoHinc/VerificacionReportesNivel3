@@ -1,0 +1,33 @@
+﻿@page "/reporte"
+@inject HttpClient Http
+
+<h3>Estadísticas de Verificación</h3>
+
+@if(reporte == null)
+{
+	<p><em>Cargando reporte...</em></p>
+}
+else
+{
+	<div class="card p-3 shadow rounded" style="max-width: 400px;">
+		<p><strong>Coincidencias Encontradas:</strong> @reporte.cuenta_contieneNombre</p>
+		<p><strong>Coincidencias no Encontradas:</strong> @reporte.cuenta_noContieneNombre</p>
+		<p><strong>Relación:</strong> @reporte.relacion.ToString("P2")</p>
+	</div>
+}
+
+@code {
+	private ReporteResponse? reporte;
+
+	protected override async Task OnInitializedAsync()
+	{
+		reporte = await Http.GetFromJsonAsync<ReporteResponse>("api/verificaciones/reporte");
+	}
+
+	public class ReporteResponse
+	{
+		public int cuenta_contieneNombre { get; set; }
+		public int cuenta_noContieneNombre { get; set; }
+		public double relacion { get; set; }
+	}
+}

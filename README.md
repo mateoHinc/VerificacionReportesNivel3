@@ -45,3 +45,24 @@ Este es un proyecto ASP.NET Core 7 con Blazor WebAssembly (ASP.NET Core Hosted) 
 ```bash
 git clone https://github.com/tuusuario/VerificacionesReportesNivel3.git
 cd VerificacionesReportesNivel3
+```
+
+---
+
+##  Configura la cadena de conexión en appsettings.json (proyecto .Server)
+
+```bash
+"ConnectionStrings": {
+  "DefaultConnection": "Server=TU_SERVIDOR;Database=VerificacionesDB;User Id=USERNAME;Password=PASSWORD;TrustServerCertificate=true;"
+}
+```
+
+---
+
+## 💻 Ejecutar la app
+
+### 1. Abre la solución en Visual Studio.
+
+### 2. Establece el proyecto Server como proyecto de inicio.
+
+### 3. Ejecuta (F5) y accede al frontend en https://localhost:{puerto}.

@@ -1,0 +1,54 @@
+﻿@page "/clientes-resumen"
+@inject HttpClient Http
+
+<h3>Resumen de Clientes</h3>
+
+@if (resumenDtos == null)
+{
+    <p><em>Cargando datos...</em></p>
+}
+else if (!resumenDtos.Any())
+{
+    <p>No hay registros de clientes.</p>
+}
+else
+{
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Cantidad de Facturas</th>
+                <th>Total Comprado</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in resumenDtos)
+            {
+                <tr>
+                    <td>@cliente.Cedula</td>
+                    <td>@cliente.Nombre</td>
+                    <td>@cliente.CantidadFacturas</td>
+                    <td>@cliente.ValorTotal.ToString("C0")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+	private List<ClienteResumenDto>? resumenDtos;
+
+	protected override async Task OnInitializedAsync()
+	{
+		resumenDtos = await Http.GetFromJsonAsync<List<ClienteResumenDto>>("api/clientes/resumen");
+	}
+
+    public class ClienteResumenDto
+    {
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public int CantidadFacturas { get; set; }
+        public int ValorTotal { get; set; }
+    }
+}

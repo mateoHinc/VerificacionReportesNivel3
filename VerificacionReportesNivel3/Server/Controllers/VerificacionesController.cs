@@ -35,7 +35,7 @@ namespace VerificacionReportesNivel3.Server.Controllers
 
         }
 
-        // POST: api/verificaciones/verificar
+        // 
         [HttpGet("reporte")]
         public IActionResult GetReporte()
         {

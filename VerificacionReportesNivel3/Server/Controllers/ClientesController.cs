@@ -57,6 +57,26 @@ namespace VerificacionReportesNivel3.Server.Controllers
             return Ok(resultado.First());
         }
 
+        [HttpGet("sin-compras")]
+        public async Task<ActionResult<IEnumerable<ClientesSinComprasDto>>> GetClientesSinCompras()
+        {
+            var resultado = await _context.Clientes
+                .GroupJoin(_context.Facturas,
+                            cliente => cliente.Cedula,
+                            factura => factura.Cliente,
+                            (cliente, facturas) => new { cliente, facturas })
+                .Where(g => !g.facturas.Any())
+                .Select(g => new ClientesSinComprasDto
+                {
+                    Cedula = g.cliente.Cedula,
+                    Nombre = g.cliente.Nombre,
+                    Telefono = g.cliente.Telefono
+                })
+                .ToListAsync();
+
+            return Ok(resultado);
+        }
+
         public IActionResult Index()
         {
             return View();

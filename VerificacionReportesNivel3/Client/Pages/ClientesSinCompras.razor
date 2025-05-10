@@ -1,0 +1,51 @@
+﻿@page "/clientes-sin-compras"
+@inject HttpClient Http
+
+<h3>Clientes sin compras registradas</h3>
+
+@if (clientes == null)
+{
+    <p><em>Cargando...</em></p>
+}
+else if (!clientes.Any())
+{
+    <p>¡Todos los clientes han realizado compras!</p>
+}
+else
+{
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Cédula</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var cliente in clientes)
+            {
+                <tr>
+                    <td>@cliente.Cedula</td>
+                    <td>@cliente.Nombre</td>
+                    <td>@cliente.Telefono</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ClienteDto>? clientes;
+
+    protected override async Task OnInitializedAsync()
+    {
+        clientes = await Http.GetFromJsonAsync<List<ClienteDto>>("api/clientes/sin-compras");
+    }
+
+    public class ClienteDto
+    {
+        public string Cedula { get; set; }
+        public string Nombre { get; set; }
+        public string Telefono { get; set; }
+    }
+}

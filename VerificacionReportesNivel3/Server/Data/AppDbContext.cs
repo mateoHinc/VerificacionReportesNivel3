@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using VerificacionReportesNivel3.Server.DTOs;
 using VerificacionReportesNivel3.Server.Models;
 
 namespace VerificacionReportesNivel3.Server.Data
@@ -11,6 +12,7 @@ namespace VerificacionReportesNivel3.Server.Data
         public DbSet<Producto> Productos { get; set; }
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<Verificacion> Verificaciones { get; set; }
+        public DbSet<ArticuloCaroDto> ArticuloCaro { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -33,6 +35,10 @@ namespace VerificacionReportesNivel3.Server.Data
                 .WithMany()
                 .HasForeignKey(v => v.CedulaCliente)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Factura>().HasKey(f => new { f.NoFactura, f.Producto });
+
+            modelBuilder.Entity<ArticuloCaroDto>().HasNoKey();
         }
 
     }

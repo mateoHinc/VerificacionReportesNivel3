@@ -42,6 +42,21 @@ namespace VerificacionReportesNivel3.Server.Controllers
             return Ok(resumen);
         }
 
+        [HttpGet("articulo-mas-caro/{cedula}")]
+        public async Task<ActionResult<ArticuloCaroDto>> GetArticuloMasCaro(string cedula)
+        {
+            var resultado = await _context.ArticuloCaro
+                .FromSqlRaw("EXEC ObtenerArticuloMasCaroPorCliente @Cedula = {0}", cedula)
+                .ToListAsync();
+
+            if (resultado == null || !resultado.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(resultado.First());
+        }
+
         public IActionResult Index()
         {
             return View();

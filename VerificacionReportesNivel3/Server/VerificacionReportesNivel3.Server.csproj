@@ -13,11 +13,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Client\VerificacionReportesNivel3.Client.csproj" />
     <ProjectReference Include="..\Shared\VerificacionReportesNivel3.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Server\" />
   </ItemGroup>
 
 
